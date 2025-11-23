@@ -28,4 +28,9 @@ object Tree {
     case Leaf(v) => Leaf(f(v))
     case Node(left, right) => Node(map(left)(f), map(right)(f))
   }
+
+  def foldRight[A, B](tree: Tree[A])(f: A => B)(g: (B, B) => B): B = tree match {
+    case Leaf(v) => f(v)
+    case Node(left, right) => g(foldRight(left)(f)(g), foldRight(right)(f)(g))
+  }
 }
