@@ -38,4 +38,10 @@ object Tree {
     case Leaf(v) => f(v)
     case Node(left, right) => g(foldLeft(left)(f)(g), foldLeft(right)(f)(g))
   }
+
+  def sizeFold[A](tree: Tree[A]): Int = foldLeft(tree)(_ => 1)(_ + _)
+
+  def containsFold[A](tree: Tree[A], value: A): Boolean = foldLeft(tree)(v => v == value)(_ || _)
+
+  def mapFold[A, B](tree: Tree[A])(f: A => B): Tree[B] = foldLeft(tree)(v => Leaf(f(v)): Tree[B])(Node(_, _))
 }
